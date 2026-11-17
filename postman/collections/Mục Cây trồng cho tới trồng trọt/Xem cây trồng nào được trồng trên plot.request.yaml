@@ -1,0 +1,10 @@
+$kind: http-request
+description: "Xem danh sách các cây trồng trên plot thuộc tổ chức~\r
+
+  Cây A : - đang được trồng - trên plot B - thuộc Orangization X\r\n"
+url: "{{baseUrl}}/api/v1/dev/plantings?organizationId=12&plotId=5"
+method: GET
+queryParams:
+  organizationId: "12"
+  plotId: "5"
+order: 3000

@@ -1,0 +1,17 @@
+name: SMAT local
+values:
+  - key: baseUrl
+    value: ''
+  - key: organizationId
+    value: ''
+  - key: accessToken
+    secret: true
+  - key: assignmentId
+    value: ''
+  - key: plantingId
+    value: ''
+  - key: plotId
+    value: ''
+  - key: accessFarmer
+    value: ''
+color: 180

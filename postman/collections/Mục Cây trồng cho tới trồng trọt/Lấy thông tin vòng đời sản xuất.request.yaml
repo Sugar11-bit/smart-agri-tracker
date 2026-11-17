@@ -1,0 +1,10 @@
+$kind: http-request
+description: "Lấy thông tin của thời điểm vòng đời sản xuất của organization thuộc planting nào\r
+
+  production-cycles -> organization & planting : truy xuất "
+url: "{{baseUrl}}/api/v1/dev/production-cycles?organizationId=12&plantingId=4"
+method: GET
+queryParams:
+  organizationId: "12"
+  plantingId: "4"
+order: 5000

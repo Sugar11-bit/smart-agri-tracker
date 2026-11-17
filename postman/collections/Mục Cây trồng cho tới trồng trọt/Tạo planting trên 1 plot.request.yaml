@@ -1,0 +1,24 @@
+$kind: http-request
+description: "Tạo cây trồng planting trên plot \r
+
+  plot A : trồng cây B\r\n"
+url: "{{baseUrl}}/api/v1/dev/plantings?organizationId=12"
+method: POST
+queryParams:
+  organizationId: "12"
+body:
+  type: json
+  content: "{\r
+
+    \  \"plotId\": 5,\r
+
+    \  \"cropTypeId\": 1,\r
+
+    \  \"varietyId\": null,\r
+
+    \  \"plantingCode\": \"PLANT-Arabica-010\",\r
+
+    \  \"plantedAt\": \"2026-11-01\"\r
+
+    }"
+order: 2000

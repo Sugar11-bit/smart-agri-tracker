@@ -1,0 +1,18 @@
+$kind: http-request
+description: xem danh sách các farm có trong 1 tổ chứchức
+url: "{{baseUrl}}/api/v1/dev/farms?organizationId={{organizationId}}"
+method: GET
+queryParams:
+  organizationId: "{{organizationId}}"
+body:
+  type: json
+  content: "{\r
+
+    \  \"farmCode\": \"FARM-003\",\r
+
+    \  \"farmName\": \"Trang trại cà phê lô 10\",\r
+
+    \  \"addressText\": \"Xuân Trường\"\r
+
+    }"
+order: 1000

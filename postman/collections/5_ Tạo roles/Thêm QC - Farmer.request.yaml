@@ -1,0 +1,25 @@
+$kind: http-request
+name: Thêm QC / Farmer
+description: Thêm QC & farmer
+url: "{{baseUrl}}/api/v1/admin/users?organizationId={{organizationId}}"
+method: POST
+queryParams:
+  organizationId: "{{organizationId}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"username\": \"QC01\",\r
+
+    \    \"password\": \"QC01@12345\",\r
+
+    \    \"fullName\": \"Hy Ngoc Duong\",\r
+
+    \    \"role\": \"QC\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0q5p}}"
+order: 1000

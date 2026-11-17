@@ -1,0 +1,12 @@
+$kind: http-request
+description: "Xem trên plot gồm những ai được phân công vào\r\n"
+url: "{{baseUrl}}/api/v1/admin/plot-assignments?organizationId=12&plotId=5"
+method: GET
+queryParams:
+  organizationId: "12"
+  plotId: "5"
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0ppv}}"
+order: 4000

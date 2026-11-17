@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DiffGenerationConfig">
+    <option name="sourceModelValue" value="smat-backend:entityManagerFactory" />
+    <option name="targetDbValue" value="a48dff72-d13b-4b08-b0ab-0b1ddb177422" />
+  </component>
+</project>

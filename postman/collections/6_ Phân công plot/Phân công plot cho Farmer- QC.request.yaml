@@ -1,0 +1,21 @@
+$kind: http-request
+name: Phân công plot cho Farmer/ QC
+description: "PHân công lô đất cho Farmer or QC\r\n"
+url: "{{baseUrl}}/api/v1/admin/plot-assignments?organizationId=12"
+method: POST
+queryParams:
+  organizationId: "12"
+body:
+  type: json
+  content: "{\r
+
+    \  \"plotId\": 5,\r
+
+    \  \"membershipId\": 5\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+order: 6000

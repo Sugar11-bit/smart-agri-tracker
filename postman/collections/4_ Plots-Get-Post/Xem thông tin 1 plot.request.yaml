@@ -1,0 +1,8 @@
+$kind: http-request
+description: Lấy dữ liệu các plots thuộc farm và organization
+url: "{{baseUrl}}/api/v1/dev/plots?organizationId=12&farmId=19"
+method: GET
+queryParams:
+  organizationId: "12"
+  farmId: "19"
+order: 2000

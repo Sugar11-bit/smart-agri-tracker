@@ -1,0 +1,26 @@
+$kind: http-request
+description: "Tạo chu kỳ sản xuất kiểu bắt đâu vòng đời của sản phầm \r
+
+  Cho biết sản phẩm này đc bắt đầu chăm sóc khi nào cho tới ngày thu hoạch\r
+
+  \r\n"
+url: "{{baseUrl}}/api/v1/dev/production-cycles?organizationId=12"
+method: POST
+queryParams:
+  organizationId: "12"
+body:
+  type: json
+  content: "{\r
+
+    \  \"plantingId\": 4,\r
+
+    \  \"cycleCode\": \"CYCLE-COFFEE-2026-02\",\r
+
+    \  \"cycleYear\": 2026,\r
+
+    \  \"startDate\": \"2026-10-14\",\r
+
+    \  \"endDate\": null\r
+
+    }"
+order: 4000

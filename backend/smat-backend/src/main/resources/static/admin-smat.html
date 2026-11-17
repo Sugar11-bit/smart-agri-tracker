@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>SMAT — Admin Development</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Smart Agri-Tracker</h1>
+    <p>Admin Web — Development v0.1</p>
+</header>
+
+<main>
+
+    <section class="card">
+        <h2>Chọn tổ chức</h2>
+        <div class="form-grid">
+            <input id="organizationId" type="number"
+                   min="1" placeholder="Organization ID">
+            <button id="loadFarmsBtn">
+                Tải danh sách Farm
+            </button>
+        </div>
+        <p class="muted">
+            Nhập Organization ID thực tế từ PostgreSQL.
+        </p>
+    </section>
+
+    <section class="card">
+        <h2>Danh sách Farm</h2>
+        <ul id="farmList"></ul>
+    </section>
+
+    <section class="card">
+        <h2>Tạo Farm</h2>
+        <form id="farmForm" class="form-grid">
+            <input id="farmCode" required
+                   maxlength="40" placeholder="Mã Farm">
+            <input id="farmName" required
+                   maxlength="150" placeholder="Tên Farm">
+            <input id="farmAddress"
+                   placeholder="Địa chỉ">
+            <button type="submit">Tạo Farm</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Danh sách Plot theo Farm</h2>
+        <div class="form-grid">
+            <select id="farmSelect">
+                <option value="">Chọn Farm</option>
+            </select>
+            <button id="loadPlotsBtn">
+                Tải danh sách Plot
+            </button>
+        </div>
+        <ul id="plotList"></ul>
+    </section>
+
+    <section class="card">
+        <h2>Tạo Plot</h2>
+        <form id="plotForm" class="form-grid">
+            <input id="plotCode" required
+                   maxlength="40" placeholder="Mã Plot">
+            <input id="plotName" required
+                   maxlength="150" placeholder="Tên Plot">
+            <input id="plotArea" required
+                   type="number" min="0.0001" step="0.0001"
+                   placeholder="Diện tích (ha)">
+            <button type="submit">Tạo Plot</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Danh sách Planting</h2>
+
+        <select id="plotSelect">
+            <option value="">Chọn Plot</option>
+        </select>
+
+        <button id="loadPlantingsBtn">
+            Tải danh sách Planting
+        </button>
+
+        <ul id="plantingList"></ul>
+    </section>
+
+
+    <section class="card">
+        <h2>Tạo Planting — Cây trồng</h2>
+
+        <p class="muted">
+            Chọn Plot ở phần danh sách Planting trước khi tạo.
+        </p>
+
+        <form id="plantingForm" class="form-grid">
+
+            <input
+                    id="plantingCode"
+                    placeholder="Mã Planting, ví dụ PL-COFFEE-002"
+                    maxlength="40"
+                    required
+            >
+
+
+            <label for="cropTypeId">
+                Loại cây trồng
+                <select id="cropTypeId" required>
+                    <option value="">Đang tải loại cây...</option>
+                </select>
+            </label>
+
+
+            <input
+                    id="varietyId"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="Variety ID (không bắt buộc)"
+            >
+
+            <input
+                    id="plantedAt"
+                    type="date"
+            >
+
+            <button type="submit">
+                Tạo Planting
+            </button>
+
+        </form>
+    </section>
+
+
+    <section class="card">
+        <h2>Danh sách ProductionCycle</h2>
+
+        <select id="plantingSelect">
+            <option value="">Chọn Planting</option>
+        </select>
+
+        <button id="loadCyclesBtn">
+            Tải danh sách kỳ sản xuất
+        </button>
+
+        <ul id="cycleList"></ul>
+    </section>
+
+
+    <section class="card">
+        <h2>Tạo ProductionCycle — Kỳ sản xuất</h2>
+
+        <p class="muted">
+            Chọn Planting phía trên trước khi tạo kỳ sản xuất.
+        </p>
+
+        <form id="cycleForm" class="form-grid">
+
+            <input
+                    id="cycleCode"
+                    maxlength="40"
+                    placeholder="Mã kỳ, ví dụ CYCLE-2027-001"
+                    required
+            >
+
+            <input
+                    id="cycleYear"
+                    type="number"
+                    min="1900"
+                    max="2200"
+                    step="1"
+                    placeholder="Năm sản xuất"
+            >
+
+            <label>
+                Ngày bắt đầu
+                <input id="cycleStartDate" type="date" required>
+            </label>
+
+            <label>
+                Ngày kết thúc
+                <input id="cycleEndDate" type="date">
+            </label>
+
+            <button type="submit">
+                Tạo kỳ sản xuất
+            </button>
+
+        </form>
+    </section>
+
+
+    <section class="card">
+        <h2>Thông báo hệ thống</h2>
+        <div id="message" role="status">
+            Sẵn sàng kết nối Backend.
+        </div>
+    </section>
+
+</main>
+<script src="/js/admin.js" defer></script>
+</body>
+</html>

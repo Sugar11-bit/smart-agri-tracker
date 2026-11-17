@@ -1,0 +1,31 @@
+$kind: http-request
+description: |-
+  Tạo farm bằng quyền admin nếu admin chưa được phân công vào organizationID thì bị ném sang illlegelStateException 409
+
+  Post tạo farm mới  
+  ví dụ:  
+  {  
+  "farmCode": "FARM-TEST-002",  
+  "farmName": "Trang trại thử nghiệm",  
+  "addressText": "Đà Lạt"  
+  }
+url: "{{baseUrl}}/api/v1/admin/farms?organizationId={{organizationId}}"
+method: POST
+queryParams:
+  organizationId: "{{organizationId}}"
+body:
+  type: json
+  content: "{\r
+
+    \  \"farmCode\": \"FARM-SECURE-004\",\r
+
+    \  \"farmName\": \"Trang trại hồng phân quyền\",\r
+
+    \  \"addressText\": \"Lâm Đồng\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0hyd}}"
+order: 2000

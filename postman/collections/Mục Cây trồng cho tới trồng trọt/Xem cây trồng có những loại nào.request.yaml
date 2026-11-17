@@ -1,0 +1,5 @@
+$kind: http-request
+description: xem loại cây trồng gồm những loại nào
+url: "{{baseUrl}}/api/v1/dev/crop-types"
+method: GET
+order: 1000

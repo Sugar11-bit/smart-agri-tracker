@@ -1,0 +1,14 @@
+$kind: http-request
+description: Thực hiện PATCH kết thúc phân công
+url: http://localhost:8080/api/v1/admin/plot-assignments/1/end?organizationId=12
+method: PATCH
+queryParams:
+  organizationId: "12"
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+order: 3000

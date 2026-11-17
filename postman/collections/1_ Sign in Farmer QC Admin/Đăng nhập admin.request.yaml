@@ -1,0 +1,38 @@
+$kind: http-request
+description: Đăng nhập admin
+url: http://localhost:8080/api/v1/auth/login
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "username": "admin01",
+      "password": "Duong@13042005"
+    }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: "\r
+
+      if (pm.response.code === 200) {\r
+
+      \    const data = pm.response.json();\r
+
+      \r
+
+      \    if (typeof data.accessToken === \"string\") {\r
+
+      \        pm.environment.set(\r
+
+      \            \"accessToken\",\r
+
+      \            data.accessToken\r
+
+      \        );\r
+
+      \    }\r
+
+      }\r\n"
+    language: text/javascript
+order: 1000

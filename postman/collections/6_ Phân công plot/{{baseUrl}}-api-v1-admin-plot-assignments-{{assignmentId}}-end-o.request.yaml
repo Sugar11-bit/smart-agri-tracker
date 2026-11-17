@@ -1,0 +1,6 @@
+$kind: http-request
+name: "{{baseUrl}}/api/v1/admin/plot-assignments/{{assignmentId}}/end/organization={{organizationId}}"
+description: Kết thúc phâm công trên plot
+url: "{{baseUrl}}/api/v1/admin/plot-assignments/{{assignmentId}}/end/organization={{organizationId}}"
+method: PATCH
+order: 5000

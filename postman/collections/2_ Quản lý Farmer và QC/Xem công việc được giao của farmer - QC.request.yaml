@@ -1,0 +1,10 @@
+$kind: http-request
+name: Xem công việc được giao của farmer / QC
+description: Xem công việc được giao trong plots
+url: "{{baseUrl}}/api/v1/me/plots"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0yo8}}"
+order: 2000

@@ -1,0 +1,31 @@
+$kind: http-request
+description: |-
+  Nhớ thêm id của organizationId vào để tạo Plot StartFragment
+
+  ```
+  {
+    "farmId": 1,
+    "plotCode": "PLOT-TEST-002",
+    "plotName": "Vườn cà phê số 2",
+    "areaHectares": 1.5
+  }
+  --Sau khi tạtạo
+  {
+          "id": 5,
+          "farmId": 19,
+          "plotCode": "PLOT-L10",
+          "plotName": "Vườn cà phê lô 10",
+          "areaHectares": 2.7500
+      }
+
+   ```
+
+  farmId lấy bên farn
+url: "{{baseUrl}}/api/v1/dev/plots?organizationId=12"
+method: POST
+queryParams:
+  organizationId: "12"
+body:
+  type: json
+  content: ""
+order: 1000
