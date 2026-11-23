@@ -5,6 +5,40 @@ import 'package:path/path.dart' as p;
 
 class PlotCache {
   Database? _db;
+  // Tạo các cột sync_status, last_error, server_received_at cho bảng farming_log_locations
+  Future<void> _addLocationSyncColumns(DatabaseExecutor db) async {
+    await db.execute('''
+    ALTER TABLE farming_log_locations
+    ADD COLUMN sync_status TEXT NOT NULL
+    DEFAULT 'PENDING'
+    CHECK (
+      sync_status IN (
+        'PENDING',
+        'SYNCING',
+        'SYNCED',
+        'FAILED'
+      )
+    )
+  ''');
+
+    await db.execute('''
+    ALTER TABLE farming_log_locations
+    ADD COLUMN last_error TEXT
+  ''');
+
+    await db.execute('''
+    ALTER TABLE farming_log_locations
+    ADD COLUMN server_received_at TEXT
+  ''');
+
+    await db.execute('''
+    CREATE INDEX idx_locations_sync
+    ON farming_log_locations(
+      user_id,
+      sync_status
+    )
+  ''');
+  }
 
   // Tạo bảng farming_log_locations
   Future<void> _createFarmingLogLocations(DatabaseExecutor db) async {
@@ -219,7 +253,7 @@ class PlotCache {
 
   Future<Database> get database async => _db ??= await openDatabase(
     p.join(await getDatabasesPath(), 'smat_farmer_v1.db'),
-    version: 6,
+    version: 7,
     onConfigure: (db) async {
       await db.execute('PRAGMA foreign_keys = ON');
     },
@@ -256,6 +290,9 @@ class PlotCache {
 
       // Bảng mới khi nâng cấp lên version 6
       await _createFarmingLogLocations(db);
+
+      // Bảng mới khi nâng cấp lên version 7
+      await _addLocationSyncColumns(db);
     },
     onUpgrade: (db, oldVersion, newVersion) async {
       if (oldVersion < 2) {
@@ -275,6 +312,9 @@ class PlotCache {
       }
       if (oldVersion < 6) {
         await _createFarmingLogLocations(db);
+      }
+      if (oldVersion < 7) {
+        await _addLocationSyncColumns(db);
       }
     },
   );

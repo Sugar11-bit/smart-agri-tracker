@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smat_mobile/features/plots/data/plot_cache.dart';
 
 import '../../../core/security/token_storage.dart';
 import '../data/farming_log_local_repository.dart';
@@ -13,6 +14,10 @@ import '../service/farming_log_sync_service.dart';
 import '../../farmer_catalog/data/farmer_catalog_repository.dart';
 import 'farming_log_selection_screen.dart';
 
+import '../data/farming_log_media_local_repository.dart';
+import '../data/farming_log_media_remote_repository.dart';
+import '../service/farming_log_media_sync_service.dart';
+
 class FarmingLogListScreen extends StatefulWidget {
   final Session session;
   final Map<String, dynamic> plot;
@@ -22,6 +27,8 @@ class FarmingLogListScreen extends StatefulWidget {
   // Thêm nút đồng bộ dữ liệu với Backend (nếu có kết nối Internet).
   final FarmerCatalogRepository catalogRepository;
 
+  final PlotCache cache;
+
   const FarmingLogListScreen({
     super.key,
     required this.session,
@@ -29,6 +36,7 @@ class FarmingLogListScreen extends StatefulWidget {
     required this.repository,
     required this.readAccessToken,
     required this.catalogRepository,
+    required this.cache,
   });
 
   @override
@@ -38,30 +46,54 @@ class FarmingLogListScreen extends StatefulWidget {
 class _FarmingLogListScreenState extends State<FarmingLogListScreen> {
   late Future<List<FarmingLogModel>> futureLogs;
   late final FarmingLogSyncService syncService;
+  late final FarmingLogMediaSyncService mediaSyncService;
 
   bool syncing = false;
 
   //
+
   Future<void> syncNow() async {
     if (syncing) return;
 
     setState(() => syncing = true);
 
     try {
-      final result = await syncService.syncPending(
+      // Giai đoạn 1: Đồng bộ Farming Log.
+      final logResult = await syncService.syncPending(
         userId: widget.session.userId,
         readAccessToken: widget.readAccessToken,
+      );
+
+      if (logResult.loginRequired) {
+        throw StateError('JWT đã hết hạn. Vui lòng đăng nhập lại.');
+      }
+
+      // Đọc lại token đang dùng cho phiên hiện tại.
+      final token = await widget.readAccessToken();
+
+      if (token == null || token.isEmpty) {
+        throw StateError('Không có JWT để đồng bộ ảnh/GPS.');
+      }
+
+      // Giai đoạn 2: Đồng bộ media của những
+      // Farming Log đã SYNCED và có server_id.
+      final mediaResult = await mediaSyncService.sync(
+        userId: widget.session.userId,
+        token: token,
       );
 
       if (!mounted) return;
 
       setState(refreshLogs);
 
-      final message = result.loginRequired
-          ? 'Phiên đăng nhập không còn hợp lệ. '
-                'Vui lòng đăng nhập lại khi có mạng.'
-          : 'Đồng bộ xong: ${result.synced} thành công, '
-                '${result.failed} lỗi nghiệp vụ.';
+      final message = mediaResult.loginRequired
+          ? 'Phiên đăng nhập hết hạn. '
+                'Vui lòng đăng nhập lại.'
+          : 'Đồng bộ: '
+                '${logResult.synced} nhật ký, '
+                '${mediaResult.photosSynced} ảnh, '
+                '${mediaResult.locationsSynced} GPS. '
+                '${mediaResult.failed} media lỗi.';
 
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
@@ -70,8 +102,9 @@ class _FarmingLogListScreenState extends State<FarmingLogListScreen> {
 
       setState(refreshLogs);
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Lỗi đồng bộ: $error')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Đồng bộ chưa hoàn tất: $error')));
     } finally {
       if (mounted) {
         setState(() => syncing = false);
@@ -82,6 +115,11 @@ class _FarmingLogListScreenState extends State<FarmingLogListScreen> {
   @override
   void initState() {
     super.initState();
+
+    mediaSyncService = FarmingLogMediaSyncService(
+      local: FarmingLogMediaLocalRepository(widget.cache),
+      remote: FarmingLogMediaRemoteRepository(),
+    );
 
     syncService = FarmingLogSyncService(
       local: widget.repository,

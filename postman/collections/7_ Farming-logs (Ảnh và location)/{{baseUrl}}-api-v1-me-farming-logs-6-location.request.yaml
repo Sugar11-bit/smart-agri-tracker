@@ -1,0 +1,25 @@
+$kind: http-request
+name: "{{baseUrl}}/api/v1/me/farming-logs/6/location"
+description: "Tạo mới 1 farming-logs: location địa điểm khi lưu"
+url: "{{baseUrl}}/api/v1/me/farming-logs/6/location"
+method: PUT
+body:
+  type: json
+  content: "\r
+
+    {\r
+
+    \  \"latitude\": 11.94,\r
+
+    \  \"longitude\": 108.44,\r
+
+    \  \"accuracyMeters\": 12.0,\r
+
+    \  \"capturedAt\": \"2026-11-17T03:20:00Z\"\r
+
+    }\r\n"
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessFarmer}}"
+order: 1000

@@ -106,6 +106,7 @@ class MyPlotsScreen extends StatelessWidget {
                                     ),
                                     readAccessToken: readAccessToken,
                                     catalogRepository: catalogRepository,
+                                    cache: cache,
                                   ),
                                 ),
                               );
